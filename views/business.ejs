@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/styles-1.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
+    <style>
+        h1 {
+            font-family: "Playfair Display", serif;
+            font-optical-sizing: auto;
+            font-weight: 800;
+            font-style: normal;
+            font-size: 4em;
+            width: 50%;
+            margin-left: 25%;
+        }
+        .Blog-Topic {
+            padding-bottom: 2rem;
+        }
+        h2 {
+            padding-left: 3rem;
+        }
+        .btn {
+            background-color: black;
+            color: white;
+            border-color: black;
+        }
+        .btn:hover {
+            background-color: white;
+            color: black;
+        }
+        .highlighted-heading{
+          font-weight: bold;
+        }
+    </style>
+</head>
+<body id="page_1">   
+    <section class="navigation">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header navbar-brand">Elegant Chronicles</div>
+                <ul class="navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/create-blogs">Create Blogs</a></li>
+                    <li><a href="/technology">Technology</a></li>
+                    <li><a href="/business">Business</a></li>
+                    <li><a href="/finance">Finance</a></li>
+                    <li><a href="/gaming">Gaming</a></li>
+                    <li><a href="/personal-development">Personal Development</a></li>
+                </ul>
+            </div>
+        </nav>
+    </section>
+
+<section class="Blogging-Section">
+  <div class="container-fluid">
+      <div class="Blog-Topic">
+          <% if (blogs && blogs.length > 0) { %>
+              <% blogs.forEach((blog, index) => { %>
+                  <h1><%= blog.topic %></h1>
+                  <h2>Posted by <%= blog.name %>, on <%= fullTime %></h2>
+                  <br>
+                  <div contenteditable="true" id="blogEditor<%= index %>" style="border: 1px solid #ddd; padding: 10px;">
+                      <p><%- blog.blog.replace(/\n/g, '<br>') %></p>
+                  </div>
+                  <div class="actions-section">
+                      <form action="/edit/<%= index %>" method="GET" style="display:inline;">
+                          <button type="submit" class="btn">Edit</button>
+                      </form>
+                      <form action="/delete/<%= index %>" method="POST" style="display:inline;">
+                          <button type="submit" id="delete<%= index %>" value="delete" class="btn">Delete</button>
+                      </form>
+                  </div>
+                  <div>
+                    <form action="/comment/<%= index %>" method="POST">
+                        <textarea name="comment" placeholder="Enter your comment here..." rows="4" style="width: 100%; padding: 10px; border: 1px solid #ddd;"></textarea>
+                        <button type="submit" class="btn">Post Comment</button>
+                    </form>
+                     <div>
+                        <% if (blog.comments) { %>
+                            <% blog.comments.forEach(comment => { %>
+                                <p><%= comment %></p>
+                            <% }); %>
+                        <% } %>
+                    </div>
+                <hr>
+              <% }); %>
+          <% } else { %>
+              <p>No blogs available.</p>
+          <% } %>
+      </div>
+  </div>
+</section>
+
+<script src="../index.js"></script>
+
+</body>

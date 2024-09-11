@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/styles-1.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
+    <style>
+        input[type="text"], input[type="email"], textarea {
+            width: 100%; /* Make inputs full width */
+            box-sizing: border-box; /* Include padding and border in element's width */
+            overflow-wrap: break-word; /* For input fields, this helps with long text */
+            word-wrap: break-word; /* Ensures text will wrap */
+        }
+
+        textarea {
+            min-height: 50px; /* Minimum height */
+            resize: none; /* Disable manual resizing */
+        }
+
+        input[type="text"], input[type="email"], input[name="topic"] {
+            overflow: hidden; /* Prevents scrollbar */
+            resize: none; /* Prevents manual resize */
+        }
+        h1 {
+            font-family: "Playfair Display", serif;
+            font-optical-sizing: auto;
+            font-weight: 800;
+            font-style: normal;
+            font-size: 4em;
+            width: 50%;
+            margin-left: 25%;
+        }
+        .Blog-Topic {
+            padding-bottom: 2rem;
+        }
+        h2 {
+            padding-left: 3rem;
+        }
+        .btn {
+            background-color: black;
+            color: white;
+            border-color: black;
+        }
+        .btn:hover {
+            background-color: white;
+            color: black;
+        }
+        .highlighted-heading{
+          font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="navigation">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header navbar-brand">Elegant Chronicles</div>
+                <ul class="navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/create-blogs">Create Blogs</a></li>
+                    <li><a href="/technology">Technology</a></li>
+                    <li><a href="/business">Business</a></li>
+                    <li><a href="/finance">Finance</a></li>
+                    <li><a href="/gaming">Gaming</a></li>
+                    <li><a href="/personal-development">Personal Development</a></li>
+                </ul>
+            </div>
+        </nav>
+    </section>
+
+    <section class="edit-blog-section">
+        <div class="container-fluid">
+            <h1>Edit Blog</h1>
+            <form action="/update/<%= index %>" method="POST">
+                <label for="topic">Topic:</label>
+                <input type="text" id="topic" name="topic" value="<%= blog.topic %>" required>
+                
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="<%= blog.name %>" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="<%= blog.email %>" required>
+                
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category" required>
+                        <option value="Technology">Technology</option>
+                        <option value="Business">Business</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Gaming">Gaming</option>
+                        <option value="Personal Development">Personal Development</option>
+                        <option value="Education">Education</option>
+                        
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="blog">Blog:</label>
+                    <textarea id="comment" name="comment" rows="10" cols="30" value="<%= blog.blog %>" placeholder="Your blog content here" required> <%= blog.blog %> </textarea>
+                </div>
+                <button type="submit" id="submit" name="submit">Edit</button>
+            </form>
+        </div>
+    </section>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const textareas = document.querySelectorAll("textarea");
+            const inputs = document.querySelectorAll("input[type='text'], input[type='email'], input[name='topic']");
+
+            // Adjust the height of the textarea automatically
+            textareas.forEach(textarea => {
+                textarea.addEventListener("input", () => {
+                    textarea.style.height = "auto"; // Reset height
+                    textarea.style.height = `${textarea.scrollHeight}px`; // Set new height
+                });
+            });
+
+            // Adjust the width of the input fields automatically
+            inputs.forEach(input => {
+                input.addEventListener("input", () => {
+                    input.style.width = "auto"; // Reset width
+                    input.style.width = `${input.scrollWidth}px`; // Set new width
+                });
+            });
+        });
+    </script>
+    <section class="footer">
+        <div class="container" style="width: 100%;">
+            <footer class="d-flex flex-wrap justify-content-left align-items-left py-3 my-4">
+                <div class="col-md-4 d-flex align-items-left">
+                    <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+                        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+                    </a>
+                    <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Company, Inc</span>
+                </div>
+    
+                <div class="Icons" style="height: 10rem;">
+                    <ul class="nav col-md-4 justify-content-between d-flex" style="list-style: none; flex-direction: row;">
+                        <li class="icons-1"><a href="#facebook"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#DBE2EF" class="bi bi-facebook" viewBox="0 0 16 16">
+                            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/></svg>
+                        </a></li>
+                        <li class="icons-2"><a href="#Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#DBE2EF" class="bi bi-twitter-x" viewBox="0 0 16 16">
+                            <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/></svg>
+                        </a></li>
+                    </ul>
+                </div>
+            </footer>
+        </div>
+    </section>
+    <script src="../index.js"></script>
+</body>
+</html>
